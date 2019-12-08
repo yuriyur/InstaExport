@@ -16,6 +16,7 @@ def sendposttotelegram(url, imgname, caption):
     apihelper.proxy = proxy
     bot = telebot.TeleBot(telegram_token)
     bot.send_photo(telegram_id_chanel, open(imgname, 'rb'), caption=caption)
+    print('Posted image: '+imgname)
 
 def main(url):
     url = url+'?__a=1'
