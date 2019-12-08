@@ -3,6 +3,7 @@ import re
 import os
 import dropbox
 import telebot
+from telebot import apihelper
 
 def saveimagetodisk(url, imgname):
     urllib.request.urlretrieve(url, imgname)
@@ -17,6 +18,7 @@ def saveimagetodropbox(url, imgname):
 def sendposttotelegram(url, imgname, caption):
     apihelper.proxy = proxy
     bot = telebot.TeleBot(telegram_token)
+    bot.send_photo(telegram_id_chanel, open(imgname, 'rb'), caption=caption)
 
 def main(url):
     url = url+'?__a=1'
@@ -44,3 +46,37 @@ def main(url):
             else:
                 exit()
         i += 1
+
+def crudConfig(path):
+    config = configparser.ConfigParser()
+    config.read(path)
+
+    url = config.get("SETTINGS", "url")
+    print('Parse url: '+url)
+
+    global proxy
+    global dropbox_token
+    global telegram_token
+    global telegram_id_chanel
+    
+    proxy = {}
+    proxy['https'] = config.get("SETTINGS", "httpsproxy")
+    print(proxy)
+
+    dropbox_token = config.get("SETTINGS", "dropbox_token")
+    telegram_token = config.get("SETTINGS", "telegram_token")
+    telegram_id_chanel = config.get("SETTINGS", "telegram_id_chanel")
+    folder_name = config.get("SETTINGS", "folder_name")
+
+    if os.path.exists(folder_name):
+        print('Folder to save: '+folder_name)
+    else:
+        print('Сreate folder')
+        os.mkdir(str(folder_name))
+    os.chdir(str(folder_name))
+
+    main(url)
+
+path = os.path.dirname(os.path.abspath(__file__))+'\\'+'config.ini'
+print('Config file: '+path)
+crudConfig(path)
