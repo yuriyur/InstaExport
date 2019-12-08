@@ -4,13 +4,10 @@ import os
 import dropbox
 import telebot
 from telebot import apihelper
-
-def saveimagetodisk(url, imgname):
-    urllib.request.urlretrieve(url, imgname)
+import configparser
 
 def saveimagetodropbox(url, imgname):
     dbx = dropbox.Dropbox(dropbox_token)
-    urllib.request.urlretrieve(url, imgname)
     with open(imgname,'rb') as file:
         response = dbx.files_upload(file.read(), '/'+imgname)
         print(response)
