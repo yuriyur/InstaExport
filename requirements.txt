@@ -1,0 +1,4 @@
+py -m pip install dropbox-api
+py -m pip install pyTelegramBotAPI
+py -m pip install pysocks
+py -m pip install configparser
