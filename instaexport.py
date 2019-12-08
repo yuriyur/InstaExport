@@ -27,7 +27,7 @@ def main(url):
     data_images = re.findall('"display_url.*?(https://.*?)"', graphql)
     data_caption = re.findall("edge_media_to_caption\":{\"edges\":\[{\"node\":{\"text\":\".*?(.*?)\"", graphql)
 
-    print('1 - post to telegram; 2 - save to dropbox;')
+    print('1 - post to telegram; 2 - save to dropbox; 3 - save to disk')
     tosave = int(input())
     i = 0
     while i < len(data_images):
